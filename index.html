@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shop the latest household products on our modern desktop shopping platform. Enjoy secure checkout, fast delivery, and exclusive deals.">
+    <meta name="author" content="Your Shopping Platform Name">
+    <meta name="keywords" content="shopping, ecommerce, online store, household products, home essentials, deals">
+    <title>Your Shopping Platform</title>
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1515165562835-cd4a3b7a6c9a?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            animation: fadeInBody 1.2s;
+            padding-top: 80px;
+        }
+        @keyframes fadeInBody {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1001;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            animation: fadeInNavbar 1.2s ease;
+        }
+
+        .nav-logo {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #f39c12;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInNavbar {
+            from { opacity: 0; top: -50px; }
+            to { opacity: 1; top: 0; }
+        }
+
+        .filter-container {
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        .filter-container select {
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .product {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .product img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .product:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+        }
+
+        .product button {
+            display: block;
+            margin: 5px auto;
+            width: 90%;
+            padding: 10px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-to-cart {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+
+        .buy-now {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .buy-now:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">🛍️ ShopNow</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Deals</a></li>
+            <li><a href="#">Cart</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="filter-container">
+        <label for="categoryFilter">Filter by Category:</label>
+        <select id="categoryFilter" onchange="filterProducts()">
+            <option value="all">All</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="cleaning">Cleaning</option>
+            <option value="bathroom">Bathroom</option>
+            <option value="laundry">Laundry</option>
+            <option value="lighting">Lighting</option>
+            <option value="storage">Storage</option>
+        </select>
+    </div>
+
+    <div class="product-container" id="productContainer">
+        <!-- Product cards will be dynamically added here -->
+    </div>
+
+    <script>
+        const householdProducts = [
+            { name: 'Electric Kettle', category: 'kitchen' },
+            { name: 'Dish Rack', category: 'kitchen' },
+            { name: 'Vacuum Cleaner', category: 'cleaning' },
+            { name: 'Mop Bucket Set', category: 'cleaning' },
+            { name: 'Toilet Brush Set', category: 'bathroom' },
+            { name: 'Shower Caddy', category: 'bathroom' },
+            { name: 'Laundry Basket', category: 'laundry' },
+            { name: 'Clothes Drying Rack', category: 'laundry' },
+            { name: 'LED Table Lamp', category: 'lighting' },
+            { name: 'Wall Night Light', category: 'lighting' },
+            { name: 'Plastic Storage Box', category: 'storage' },
+            { name: 'Under Bed Organizer', category: 'storage' }
+        ];
+
+        const products = householdProducts.map((product, i) => {
+            return {
+                name: product.name,
+                price: (14.99 + i * 3).toFixed(2),
+                image: `https://picsum.photos/seed/household${i}/200/150`,
+                description: `High-quality ${product.name.toLowerCase()} for everyday use.`,
+                category: product.category
+            };
+        });
+
+        function renderProducts() {
+            const container = document.getElementById('productContainer');
+            container.innerHTML = '';
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product';
+                card.setAttribute('data-category', product.category);
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p>Price: $${product.price}</p>
+                    <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+                    <button class="buy-now" onclick="buyNow('${product.name}', ${product.price})">Buy Now</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterProducts() {
+            const selectedCategory = document.getElementById('categoryFilter').value;
+            const products = document.querySelectorAll('.product');
+            products.forEach(product => {
+                if (selectedCategory === 'all' || product.dataset.category === selectedCategory) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        function addToCart(productName, price) {
+            alert(`Added to cart: ${productName} ($${price})`);
+        }
+
+        function buyNow(productName, price) {
+            alert(`Proceeding to buy: ${productName} ($${price})`);
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
